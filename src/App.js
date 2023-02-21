@@ -20,14 +20,6 @@ function App() {
 
   }
 
-  const deleteTodo = (index) => {
-
-    setTodos(todos.filter((todo, i) => i !== index));
-
-
-
-  }
-
   return (
     <div className="App">
 
@@ -39,7 +31,7 @@ function App() {
             Add Todo:
           </legend>
 
-          <p className="todolist">
+          <p className="todo">
             Date: <input type="text" value={todo.date} name="date" onChange={inputChanged} />
             Description: <input type="text" value={todo.desc} name="desc" onChange={inputChanged} />
             <input type="submit" value="Add" />
@@ -62,9 +54,7 @@ function App() {
               <tr key={index}>
 
                 <td>{todo.date}</td>
-
-                <td>{todo.desc}</td>
-                <button onClick={() => deleteTodo(index)}>Delete</button></tr>)
+                <td>{todo.desc}</td></tr>)
           }
         </tbody>
       </table>
