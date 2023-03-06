@@ -18,6 +18,12 @@ function Todolist() {
   const addTodo = (event) => {
     setTodos([...todos, todo]);
   }
+  const deleteTodo = () => {
+    setTodos(todos.filter((todo, i) => i !== 0));
+
+
+
+  }
   const columns = [
     { headerName: 'Date', field: "date", sortable: true, filter: true, floatingFilter:true },
     { headerName: 'Description', field: "description", sortable: true, filter: true, floatingFilter:true },
@@ -30,6 +36,7 @@ function Todolist() {
       <input type="text" onChange={inputChanged} placeholder="Date" name="date" value={todo.date} />
       <input type="text" onChange={inputChanged} placeholder="Priority" name="priority" value={todo.priority} />
       <button onClick={addTodo}>Add</button>
+      <button onClick={deleteTodo}>Delete</button>
       <div className="ag-theme-material"
         style={{ height: '700px', width: '70%', margin: 'auto' }} >
         <AgGridReact
