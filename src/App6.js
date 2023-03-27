@@ -8,19 +8,22 @@ import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers';
+import { Tabs, Tab } from '@mui/material';
+import { Box, ThemeProvider, createTheme } from '@mui/system';
 
 
 function Todolist() {
   const [todo, setTodo] = useState({ description: '', date: null, priority: '' });
 
   const [todos, setTodos] = useState([]);
+  const [value, setValue] = useState('one');
 
   const inputChanged = (event) => {
     setTodo({ ...todo, [event.target.name]: event.target.value });
   };
 
   const addTodo = () => {
-        setTodos([...todos, todo]);
+    setTodos([...todos, todo]);
     setTodo({ description: '', date: null, priority: '' });
   };
 
@@ -38,8 +41,11 @@ function Todolist() {
     
 
 
+
   };
-  
+  const tabChange = (event, value) => {
+    setValue(value);
+  };
 
   const columns = [
     { headerName: 'Date', field: 'date', sortable: true, filter: true, floatingFilter: true },
@@ -48,22 +54,41 @@ function Todolist() {
   ];
 
   return (
+
+
     <div>
-      <Stack direction="row" spacing={2} justifyContent="center" alignItems="center">
-        <TextField variant="standard" onChange={inputChanged} label="Description" name="description" value={todo.description} />
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker label="Date" value={todo.date} onChange={date => dateChanged(date)} />
+      <Stack direction="column" spacing={2} justifyContent="center" alignItems="center" >
+        <Tabs value={value} onChange={tabChange} variant="scrollable" >
+          <Tab value="Home" label="Home" display="flex"/>
+
+          <Tab value="TODO" label="TODO" display="flex" />
+          </Tabs>
+          {value === 'Home' && <div> Welcome!! </div>}
+          {value === 'TODO' && <div ClassName="second">
+
+            <TextField variant="standard" onChange={inputChanged} label="Description" name="description" value={todo.description} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DatePicker label="Date" variant="contained" value={todo.date} onChange={date => dateChanged(date)}/>
 
 
 
-        </LocalizationProvider>
-        <TextField variant="standard" onChange={inputChanged} label="Priority" name="priority" value={todo.priority} />
-        <Button onClick={addTodo} variant="contained">Add</Button>
-        <Button onClick={deleteTodo} variant="contained">Delete</Button>
+            </LocalizationProvider>
+            <TextField variant="standard" onChange={inputChanged} label="Priority" name="priority" value={todo.priority} />
+
+            <Button onClick={addTodo} variant="contained" style={{margin: '1px'}}>Add</Button>
+           <Button onClick={deleteTodo} variant="contained" >Delete</Button>
+
+
+          
+
+          <div className="ag-theme-material" style={{ height: '700px', width: '70%', margin: 'auto' }}>
+            <AgGridReact columnDefs={columns} rowData={todos} animateRows={true} />
+          </div>
+
+          </div>}
+        
+
       </Stack>
-      <div className="ag-theme-material" style={{ height: '700px', width: '70%', margin: 'auto' }}>
-        <AgGridReact columnDefs={columns} rowData={todos} animateRows={true} />
-      </div>
     </div>
   );
 }
